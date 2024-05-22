@@ -1,4 +1,4 @@
-import { FaSearch } from "react-icons/fa";
+// import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 export default function Header() {
   return (
@@ -16,7 +16,7 @@ export default function Header() {
             placeholder="Search..."
             className="bg-transparent focus:outline-none w-24 sm:w-64"
           />
-          <FaSearch className="text-slate-500" />
+          {/* <FaSearch className="text-slate-500" /> */}
         </form>
         <ul className="flex gap-4">
           <Link to="/">
