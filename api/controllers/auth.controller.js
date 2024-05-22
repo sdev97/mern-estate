@@ -4,14 +4,23 @@ import { errorHandler } from "../utils/error.js"
 
 export const signup = async (req, res, next) => {
     const { username, email, password } = req.body
-    const hashedPassword = bcryptjs.hashSync(password, 10)
-    const newUser = new User({username, email, password: hashedPassword})
-    try {
-        await newUser.save()
-        res.status(201).json('User created successful')
-    } catch (error) {
-        next(error)
-        // next(errorHandler(500, 'Error from the function'))
+    if (req.body?.email && req.body?.username) {
+        const hashedPassword = bcryptjs.hashSync(password, 10)
+        const newUser = new User({username, email, password: hashedPassword})
+        try {
+            await newUser.save()
+            res.status(201).json({
+                message: 'User created successful',
+                success: true
+            })
+        } catch (error) {
+            next(error)
+        }
+    } else {
+        res.status(500).json({
+            message: "error"
+        })
     }
+   
     
 }
