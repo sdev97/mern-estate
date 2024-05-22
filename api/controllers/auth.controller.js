@@ -33,7 +33,10 @@ export const signin = async (req, res, next) => {
         if (!validPassword) return next(errorHandler(401, 'Wrong cridential!'));
         const token = jwt.sign({id: validUser._id}, process.env.SECRET_KEY)
         const {password: pass, ...left} = validUser._doc
-        res.cookie('access_token', token, {httpOnly: true, expires: new Date(Date.now() + 60 * 60)}).status(200).json(left)
+        res.cookie('access_token', token, {httpOnly: true, expires: new Date(Date.now() + 60 * 60)}).status(200).json({
+            success: true,
+            data: left
+        })
     } catch (error) {
         next(error)
     }
