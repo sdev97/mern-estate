@@ -9,7 +9,7 @@ export const test = (req, res) => {
 }
 
 export const updateUser = async (req, res, next) => {
-    // console.log('11111', req.d)
+    console.log('AAAA', req.user.id, req.params.id)
     if (req.user.id !== req.params.id) return next(errorHandler(401, 'Unauthorized'));
     try {
         if (req.body.password) {

@@ -33,7 +33,7 @@ export default function SignIn() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (!data.success) {
+      if (!data) {
         dispatch(signInFailure(data.message));
       } else {
         dispatch(signInSuccess(data));
