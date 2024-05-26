@@ -18,7 +18,7 @@ import {
   signOutSuccess,
   signOutFailure,
 } from "../redux/user/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -121,7 +121,7 @@ export default function Profile() {
       const data = res.json();
       if (!data) {
         // error when log out
-        dispatch(signOutFailure(data.message))
+        dispatch(signOutFailure(data.message));
       } else {
         dispatch(signOutSuccess());
         navigate("/sign-in");
@@ -183,6 +183,12 @@ export default function Profile() {
         <button className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 p-3">
           {loading ? "loading...." : "update"}
         </button>
+        <Link
+          className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
+          to={"/create-listing"}
+        >
+          Create Listing
+        </Link>
       </form>
       <p className="text-red-700 mt-5">{error ? error : null}</p>
       <p className="text-green-500 mt-5">
