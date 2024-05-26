@@ -33,7 +33,7 @@ export default function SignIn() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (!data) {
+      if (!data.email) {
         dispatch(signInFailure(data.message));
       } else {
         dispatch(signInSuccess(data));
@@ -45,7 +45,7 @@ export default function SignIn() {
   };
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
+      <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
@@ -73,7 +73,7 @@ export default function SignIn() {
       <div className="flex gap-2 mt-5">
         <p>{`Don't have an account?`}</p>
         <Link to={"/sign-up"}>
-          <span className="text-blue-700">Sign up</span>
+          <span className="text-blue-700">Sign in</span>
         </Link>
       </div>
       {error && <div className="text-red-500 mt-5">{error}</div>}

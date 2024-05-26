@@ -11,7 +11,12 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure
 } from "../redux/user/userSlice";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -22,6 +27,7 @@ export default function Profile() {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false)
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   // console.log(filePercentage)
 
   // firebase storage
@@ -86,7 +92,24 @@ export default function Profile() {
     } catch (error) {
       dispatch(updateUserFailure(error.message));
     }
-  };
+  }
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart())
+      const res = await fetch(`api/user/delete/${currentUser._id}`, {
+        method: 'DELETE'
+      })
+      const data = res.json()
+      if (!data.success) {
+        dispatch(deleteUserFailure(data.message))
+        navigate('/sign-in')
+      } else {
+        dispatch(deleteUserSuccess(data))
+      }
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message))
+    }
+  }
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -144,7 +167,7 @@ export default function Profile() {
       <p className="text-red-700 mt-5">{error ? error : null}</p>
       <p className="text-green-500 mt-5">{updateSuccess ? 'Update successfully' : null}</p>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Delete Account</span>
+        <span className="text-red-700 cursor-pointer" onClick={handleDeleteUser}>Delete Account</span>
         <span className="text-red-700 cursor-pointer">Sign out</span>
       </div>
     </div>
